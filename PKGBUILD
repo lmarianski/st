@@ -13,7 +13,13 @@ depends=(libxft)
 url=https://st.suckless.org
 source=(https://dl.suckless.org/$pkgname/$pkgname-$pkgver.tar.gz
         terminfo.patch
-        README.terminfo.rst)
+        README.terminfo.rst
+        https://st.suckless.org/patches/xresources/st-xresources-20200604-9ba7ecf.diff
+        https://st.suckless.org/patches/alpha/st-alpha-0.8.2.diff
+        https://st.suckless.org/patches/dynamic-cursor-color/st-dynamic-cursor-color-0.8.4.diff
+        https://st.suckless.org/patches/anysize/st-anysize-0.8.4.diff
+        https://st.suckless.org/patches/scrollback/st-scrollback-0.8.4.diff
+)
 sha256sums=('d42d3ceceb4d6a65e32e90a5336e3d446db612c3fbd9ebc1780bc6c9a03346a6'
             'f9deea445a5c6203a0e8e699f3c3b55e27275f17fb408562c4dd5d649edeea23'
             '0ebcbba881832adf9c98ce9fe7667c851d3cc3345077cb8ebe32702698665be2')
@@ -22,6 +28,13 @@ _makeopts="--directory=$_sourcedir"
 
 prepare() {
   patch --directory="$_sourcedir" --strip=0 < terminfo.patch
+
+  patch --directory="$_sourcedir" < st-scrollback-0.8.4.diff || echo
+
+  patch --directory="$_sourcedir" < st-alpha-0.8.2.diff || echo
+  patch --directory="$_sourcedir" < st-xresources-20200604-9ba7ecf.diff || echo
+  patch --directory="$_sourcedir" < st-dynamic-cursor-color-0.8.4.diff || echo
+  patch --directory="$_sourcedir" < st-anysize-0.8.4.diff || echo
 
   # This package provides a mechanism to provide a custom config.h. Multiple
   # configuration states are determined by the presence of two files in
